@@ -5,10 +5,10 @@ Homebaked lightweight popunder generator
 
 #### HOWTO
 ```javascript
-var urls = ["http://www.goeuro.de", "http://www.goeuro.com"],
-    callback = function () {
-      doSomething();
-    };
+var urls = ["http://www.goeuro.de", "http://www.goeuro.com"]
+var callback = function () {
+    doSomething();
+};
 
-lhachePopunder.firePopunder(urls, callback);
+window.DeviantPop.firePopunder(urls, callback);
 ```

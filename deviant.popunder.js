@@ -1,6 +1,7 @@
 /**
  * Created by Louis Hache
- * https://github.com/lhache/deviant.popunder
+ * Forked by Guilherme Redü
+ * https://github.com/guiliredu/deviant.popunder
  */
 if (window.DeviantPop === undefined) {
 
@@ -8,7 +9,7 @@ if (window.DeviantPop === undefined) {
 
         this.config = {
             chrome: {
-                callback: 'fakeClick'
+                callback: 'fakeClickNewTab'
             },
             opera: {
                 callback: 'fakeClick'
@@ -43,7 +44,7 @@ if (window.DeviantPop === undefined) {
             }
 
         };
-        
+
         this.openers = {
 
             /**
@@ -61,6 +62,25 @@ if (window.DeviantPop === undefined) {
                 evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, true, false, false, true, 0, null);
 
                 a.dispatchEvent(evt);
+            },
+
+            /**
+             * For new versions of Chrome, open and close a tab after popup launch for force focus on the page
+             *
+             * @param url
+             */
+            fakeClickNewTab: function (url) {
+                var windowAttrs = "width=768,height=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=no,directories=no,left=200px,top=0";
+                var win2 = window.open(url, "", windowAttrs);
+                try {
+                    win2.blur();
+                    window.focus();
+                }
+                catch (e) {
+                }
+
+                var tab = window.open('about:blank', '_blank');
+                tab.close();
             },
 
             /**
@@ -90,7 +110,7 @@ if (window.DeviantPop === undefined) {
                     name: "deviantPop-" + Math.floor((Math.random() * 100) + 1),
                     attrs: 'resizable=1,toolbar=1,location=1,menubar=1,directories=0,width=768,height=800,scrollbars=1'
                 };
-                
+
                 var newWindow = self.window.open("about:blank", windowAttrs.name, windowAttrs.attrs );
                 newWindow.url = url;
                 if (newWindow) {
